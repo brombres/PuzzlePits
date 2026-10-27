@@ -1,0 +1,338 @@
+============================ Plasma Works Presents ============================
+=  Puzzle Pits 95 Level Editor v1.0                                           =
+=  Copyright 1995, 1998 By Abe Pralle                                         =
+=  This program may be freely distributed and used                            =
+========================== www.infomagic.com/~plasma ==========================
+
+Editor Created:        August 1995
+       Last Modified:  June 4, 1998
+
+Docs Created:        June 5, 1998
+
+
+===============================================================================
+TABLE OF CONTENTS
+===============================================================================
+1.0.  Installation
+      1.1.  Technical note
+
+2.0.  Overview
+
+3.0.  Naming your levels
+
+4.0.  General Editing
+
+5.0.  PitCode
+      5.1.  Predefined program names
+      5.2.  Interal sequencing of events
+      5.3.  PitCode icons
+      5.4.  Registers
+      5.5.  Table of Object ID numbers
+
+===============================================================================
+1.0.  INSTALLATION
+===============================================================================
+Move the unzipped files "edit.exe", "pitsfont.dat", and "etiles.dat" to the 
+Puzzle Pits directory ("pits") and run "edit" from there.
+
+Type:    edit
+  or:    edit name (to load in name.pit when the editor starts)
+
+
+1.1.  TECHNICAL NOTE
+====================
+Although Puzzle Pits 95 and level editor were programmed to run on 386
+machines with 640k memory, this editor has since been modified and recompiled
+with djgpp (32-bit protected mode) without great attention to memory usage
+and such.  Hence it may not run on older machines at all.
+
+
+===============================================================================
+2.0.  OVERVIEW
+===============================================================================
+
+This file is minimal documentation at best regarding the usage of the Puzzle
+Pits level editor.  You will have to figure out a lot for yourself, but I
+have tried to design the editor to be fairly user-friendly.
+
+This level editor lets you design levels for Puzzle Pits in two respects:
+  1.  You can draw your level using the mouse.  You can place objects
+      (barrels, blue targets, etc.) and, when the level is played, these
+      objects will behave and interact in the "normal" way that they do
+      in most pre-made levels of Puzzle Pits.  The level will be complete
+      when all blue targets are covered with barrels, all red targets with
+      crates, and all green targets with glass chests.
+
+  2.  You can overlay an additional layer of special rules about the level
+      you've drawn by creating PitCode programs.  These programs are created
+      by arranging graphical icons to indicate the sequencing of the
+      instructions.  You will probably have to have done some programming
+      before to be able to use this effectively.  However you can still
+      create fun levels without any special PitCode programs.
+
+
+===============================================================================
+3.0.  NAMING YOUR LEVELS
+===============================================================================
+
+Follow these specifications when naming your levels:
+  *  The name should be no more than 8 characters long and the last two
+     characters should be a two-digit number (i.e. 00, 05, 12).  You never
+     have to type the ".pit" extension - that is added automatically.
+
+  *  Design your levels with consective numbers at the end of the names - e.g.
+     "MyPit01", "MyPit02", and so on.
+
+  *  The Password you give any particular pit (you are asked to create a
+     password when you save the level) - when typed in at the beginning of
+     the game - will be used to load in the NEXT level. 
+
+  *  If you're making a series of levels (e.g. "MyPit01"...), make a level
+     called "MyPit00" which is blank and has as a password "MyPit".  This
+     lets players start your series of levels by typing in "MyPit" as the
+     password.
+
+
+===============================================================================
+4.0.  GENERAL EDITING
+===============================================================================
+
+Draw/place things with the left mouse button.  Erase things with the right
+mouse button.
+
+There are two kinds of tiles:  OverTiles and UnderTiles.  UnderTiles consist
+of all types of floor as well as gems.  OverTiles are walls, signs, pillars,
+and the Puzzle Guy.
+
+
+===============================================================================
+5.0.  PITCODE
+===============================================================================
+
+PitCode works as follows:
+  1.  Click on the EDIT PITCODE button.
+
+  2.  Create a PitCode "program" with a unique name.
+
+  3.  Click on the map on the squares you want to be linked to the
+      currently selected PitCode program.  Yellow and Red dots mark
+      selected and non-selected links.
+
+      Note that a program will never activate unless the tile at that
+      location is a Sign or a Pressure Plate or unless the program
+      name is one of five special names.
+
+  4.  Click on "PROGRAM" to write the program.
+     
+
+5.1.  PREDEFINED PROGRAM NAMES
+==============================
+There are five special names you can name your programs:
+  Intro     -  This program is run at the very beginning of each level.  The
+               dialogues between the player and Master Flosh are an example
+	       of this.
+
+  Master    -  This program is run every time before (ON) and after (OFF) you
+               make a move or wait.
+
+  RedGem    -  This program is run every time you make a move and have a
+               red gem activated (ON) and whenever you turn off a red gem
+	       (OFF).  If you define no program with this name then the red
+	       gem retains its default behavior.
+
+  GreenGem  -  Similar to RedGem
+
+  BlueGem   -  Similar to RedGem
+
+
+5.2.  INTERAL SEQUENCING OF EVENTS
+==================================
+Whenever you make a move or wait, the following sequence of events take place:
+  - Master program is run (ON)
+  - RedGem program is run (ON)
+  - GreenGem program is run (ON)
+  - BlueGem program is run (ON)
+  - the Puzzle Guy moves to his destination tile
+  - objects are moved around by arrows
+  - any previously raised Pressure Plates that objects have moved over -
+      and -
+    any previously depressed Pressure Plates that objects have moved off of -
+      and -
+    any switches that have been turned on (green knob) or off (red knob) -
+      and -
+    any signs that have been bumped into -
+    activate their corresponding PitCode programs appropriate ON or OFF phase.
+  - Master program is run (OFF)
+
+5.3.  PITCODE ICONS
+===================
+The following commands can be clicked on and dropped at an appropriate place
+in the PitCode program.  Clicking on the same icon multiple times will cycle
+though alternates.
+
+To change the values of an instruction after creation, click on the Parameters
+box in the top right.  Type RETURN most of the time after entering a value
+and the ESCape key in a couple of situations.
+
+ON:   Commands placed to the RIGHT of this will happen when the program is
+      activated in the ON phase (pressure plate pressed, switch turned on,
+      sign bumped into).
+
+OFF:  Commands placed to the RIGHT of this will happen when the program is
+      activated in the OFF phase (pressure plate released, switch turned off).
+
+1:    Let (assign register a value), Plus, Minus, Times, Divide (reg by
+      value).
+
+      NOTE:  You can only use the numbers -100...100 or Register Names
+             as values.
+
+2:    Compare Equal, Compare Not-Equal, Compare last text input to this,
+      Add an ELSE to a comparison.  Commands that are placed to the RIGHT
+      of the comparison only happen if the comparison is true.  Commands
+      placed BELOW the comparison take place whether the comparison is
+      true or not.
+
+3:    Compare Less-Than, Less-Or-Equal, Greater-Than, Greater-Or-Equal.
+
+4:    Begin a loop.  Icons placed to the RIGHT of the loop are commands nested
+      within the loop.  Icons placed directly BELOW the loop are the
+      succeeding commands that happen once the loop is fully over.
+   
+5:    Redraw the Screen, Redraw & FadeIn the Screen
+
+6:    ChangeMap.  Supply list of values in the form x,y,tile -
+      e.g. 1,1,9,1,2,5 will change location (1,1) to a pillar (9) and
+      location (1,2) to a Sign (5).  If the new tile is an OverTile then
+      the UnderTile already there will be left alone and vice-versa.
+      A tile value of -1 will clear the UnderTile, -2 will clear the
+      OverTile, and -3 will clear both.
+
+      Exchange Over, Exchange Under.  Reverses the Over or UnderTiles in
+      two locations.  A teleport effect can be done with an Exchange Over
+      followed by a Redraw & Fadein
+
+7:    Print Text, Print Text & Get Input.  Type in as the parameter what
+      you want to be printed to the screen.
+
+8:    Stop.  Breaks out of the current program.  Doesn't actually end the
+             level or anything.
+
+      Win.   Completes the level.  Essential if there are no Red, Blue, or
+             Green targets.
+
+      Goto.  Quit this program and activate another program linked to (X,Y).
+             Fool the other program into thinking it's starting up at
+	     location (AsX, AsY) via registers Xpos and Ypos.
+
+9:    Target.  This changes the game cursor into a crosshairs and waits for
+               the player to click on a location.  The coordinates clicked
+	       on (1,1...21,21) are stored in registers XPOS and YPOS.
+
+0:    Reset Pressure Plate.  You must do this at the end of every OFF phase
+        of a pressure plate's program or the plate will be permanently
+	depressed.
+
+      RedGemOff.  Turns off the Red Gem if it's on.
+      GreenGemOff, BlueGemOff.  Similar to RedGemOff.
+
+5.4.  Registers
+===============
+"Registers" is another way of saying "Variables".  You can read or change
+their values at will.  
+
+Changing the values of special registers will have a
+special effect - such as changing registers "Xguy" and "Yguy" will change the
+Puzzle Guy's location.  Here is a list of Register names you can type when 
+programming:
+
+R0...R9:     These are general purpose registers.  You can use them as 
+             loop counters and whatnot.
+
+Xguy,Yguy:   The coordinates of the Puzzle Guy.
+LastX,LastY: The coordinates of the Puzzle Guy on the previous turn.
+Facing:      Direction guy is facing.  Values of 0, 4, 8, 12 are N, E, S, W.
+Moves:       Number of moves 0-99 (Registers can only store values -100...100).
+HectoMoves:  Number of HUNDREDS of moves.  HectoMoves=6 and Moves=27 would
+             be 627 moves total.
+
+
+RedGems, GreenGems, BlueGems, YellowGems, RedKeys, GreenKeys, BlueKeys:
+             Number of each that the guy possesses.
+
+InputValue:  The numerical value of the last text input by the player.
+Xpos,Ypos:   Originally the (X,Y) location of the current PitCode program,
+             or after the Target command, the location selected by the player.
+
+Walkable(tile):  Checks or sets whether a certain type of tile can be walked
+                 on or through.  For example, Let Walkable(1) = 1 will let
+		 the guy walk through walls so long as a floor was drawn
+		 underneath the walls.  "Let Walkable(53) = 0" would not let
+		 the guy walk over normal floor.
+Delta:           You can't program expressions such as "Walkable(53+R0)", but
+                 you can use Delta to add two values together.
+		 You could have "ChangeMap 1,2,Delta(53,R0)", for example.
+Under(X,Y):      Checks or Sets the UnderTile at the specified coordinates.
+Over(X,Y):       Checks or Sets the OverTile at the specified coordinates.
+LastPushed(X,Y): The direction whatever object at (X,Y) was last pushed.
+                 This is used for the Ice tiles in the game to keep things
+		 sliding over them.  Directions are -1,0,4,8,12 for None,
+		 North, East, South, West.
+RedGemOn, GreenGemOn, BlueGemOn:
+                 Checks or Sets (1=on, 0=off) if a type of gem is on or off.
+
+5.5.  Table of Object ID numbers
+================================
+You might want to print this out...
+
+EMPTYSPACE                 0
+WALL                       1
+TEXTWALL                   5
+PILLAR                     9
+OFFSWITCH                 13
+ONSWITCH                  17
+WATERBARREL               21
+HOLEBARREL                25
+BARREL                    29
+BLUEBARREL                33
+CRATE                     37
+REDCRATE                  41
+CHEST                     45
+GREENCHEST                49
+
+FLOOR                     53
+REDTARGET                 54
+GREENTARGET               55
+BLUETARGET                56
+MARKEDTILE                57
+OFFPLATE                  58
+ONPLATE                   59
+UPARROW                   60
+RIGHTARROW                61
+DOWNARROW                 62
+LEFTARROW                 63
+REDGEM                    64
+GREENGEM                  65
+BLUEGEM                   66
+YELLOWGEM                 67
+REDKEY                    68
+GREENKEY                  69
+BLUEKEY                   70
+GLASS                     71
+REDLOCK                   76
+GREENLOCK                 77
+BLUELOCK                  78
+WATERCRATE                79
+WOOD                      81
+GRASS                     82
+HOLE                      83
+WATER                     84
+LAVA                      88
+LAVADEBRIS1               92
+LAVADEBRIS2               96
+
+GUY                      100
+CLEAR_ALL                -3
+CLEAR_OVER               -2
+CLEAR_UNDER              -1
+
