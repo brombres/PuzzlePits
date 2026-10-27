@@ -8,6 +8,8 @@ Puzzle Pits is a 1995/96 MS-DOS puzzle game (Sokoban-style: push barrels/crates/
 
 - `DOS/Source/` — game source (the only code in the repo).
 - `DOS/Game/PITS95/` — the shipped game: `PITS.EXE`, data files (`TILES*.DAT`, `LOGO.DAT`, `TITLE.DAT`, `PLASMA1.FNT`, `*.WAV`), `LEVELS/LEVELxx.PIT`, and `MANUAL.TXT`.
+- `DOS/PitFiles.md`, `DOS/PitCode.md` — verified references for the `.PIT` level format and the PitCode bytecode.
+- `DOS/Tools/dat2png.py` — stdlib-only Python converter for all `.DAT`/`.FNT` graphics (formats documented in its docstring); run `python3 DOS/Tools/dat2png.py` to regenerate `DOS/Assets/Graphics/`.
 - `DOS/Editor/` — the level editor binary (`EDIT.EXE`, a later djgpp rebuild) and `EDITOR.TXT`, which is the authoritative reference for the level format concepts and the PitCode scripting language (predefined program names, event sequencing, registers, object IDs). **Editor source is not in the repo.**
 
 ## Building
